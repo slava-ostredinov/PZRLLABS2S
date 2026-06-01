@@ -18,7 +18,7 @@ class BinarySearchTree
         //! \param parent - родительский узел
         //! \param left - левый дочерний узел
         //! \param right - правый дочерний узел
-        Node(Key key, Value value, 
+        Node(Key key, Value value, bool color = false,
              Node *parent = nullptr, Node *left = nullptr, 
              Node *right = nullptr);
 
@@ -28,22 +28,31 @@ class BinarySearchTree
         bool operator==(const Node &other) const;
 
         //! Вывод в консоль поддерева, где текущий узел - корень
-        void output_node_tree() const;
+        void output_node_tree(int level=0) const;
         //! Вставить новый узел в поддерево, где текущий узел - корень
-        void insert(const Key &key, const Value &value);
+        void insert(const Key &key, const Value &value, Node** root);
         //! Удалить узел из поддерева, где текущий узел - корень
-        void erase(const Key &key);
+        void erase(const Key &key, Node** root);
+        
+        void rotateLeft();
+        void rotateRight();
+        void insertRebalance(Node** root);
+        void eraseRebalance(Node** root);
+        size_t getMaxHeight() const;
 
         std::pair<Key, Value> keyValuePair; //!< Пара ключ - значение
         Node *parent = nullptr; //!< родительский узел
         Node *left = nullptr;   //!< левый потомок
         Node *right = nullptr;  //!< правый потомок
 		
-		bool color = false; // для красно-черного дерева
-		//uint8_t height = 0; // для AVL дерева; выбираете одно из двух
+	bool color = false; // для красно-черного дерева
+	//uint8_t height = 0; // для AVL дерева; выбираете одно из двух
     };
 
 public:
+    static Node* copySubtree(const Node* other);
+    static void freeSubtree(Node* other);
+
     //! Конструктор по умолчанию
     BinarySearchTree() = default;
     //! Конструктор копирования
@@ -78,7 +87,8 @@ public:
 
         bool operator==(const Iterator &other) const;
         bool operator!=(const Iterator &other) const;
-
+		
+		friend BinarySearchTree;
     private:
         Node *_node;
     };
@@ -101,6 +111,7 @@ public:
         bool operator==(const ConstIterator &other) const;
         bool operator!=(const ConstIterator &other) const;
 
+		friend BinarySearchTree;
     private:
         const Node *_node;
     };
@@ -148,12 +159,11 @@ public:
     //! Получить размер дерева
     size_t size() const;
     //! Вывести дерево в консоль
-    void output_tree();
-	//! Получить максимальную высоту дерева
-	size_t max_height() const;
+    void output_tree() const;
+    //! Получить максимальную высоту дерева
+    size_t max_height() const;
 
 private:
     size_t _size = 0; //!< размер дерева
     Node *_root = nullptr; //!< корневой узел дерева
 };
-
