@@ -20,7 +20,11 @@ struct Point2D {
      * @return false, если точки не равны.
      */
     bool operator==(const Point2D& other) const {
-		/// Необходимо реализовать самостоятельно
+	    if (x == other.x && y == other.y)
+		    return true;
+	    else 
+		    return false;
+			/// Необходимо реализовать самостоятельно
     }
 
     /**
@@ -56,10 +60,7 @@ struct Circle {
      * @return true, если радиус >= 0.
      * @return false, если радиус < 0.
      */
-    bool isValid() const {
-        return radius >= 0;
-    }
-
+    bool isValid() const;
     /**
      * @brief Проверяет, содержится ли точка внутри окружности.
      * 
@@ -67,10 +68,7 @@ struct Circle {
      * @return true, если точка находится внутри окружности.
      * @return false, если точка находится вне окружности.
      */
-    bool contains(const Point2D& point) const {
-		/// Необходимо реализовать самостоятельно
-    }
-
+    bool contains(const Point2D& point) const;
     /**
      * @brief Проверяет, содержится ли отрезок полностью внутри окружности.
      * 
@@ -78,10 +76,7 @@ struct Circle {
      * @return true, если отрезок полностью содержится в окружности.
      * @return false, если отрезок выходит за пределы окружности.
      */
-    bool contains(const LineSegment& segment) const {
-		/// Необходимо реализовать самостоятельно
-    }
-
+    bool contains(const LineSegment& segment) const;
     /**
      * @brief Проверяет, содержится ли весь отрезок внутри окружности, включая его середину.
      * 
@@ -89,9 +84,6 @@ struct Circle {
      * @return true, если отрезок полностью содержится в окружности.
      * @return false, если отрезок выходит за пределы окружности.
      */
-    bool containsEntireSegment(const LineSegment& segment) const {
-		/// Необходимо реализовать самостоятельно
-    }
 };
 
 /**
@@ -174,3 +166,4 @@ std::vector<Point2D> extractPointsFromSegments(const std::vector<LineSegment>& s
  * @return Точка, являющаяся серединой отрезка.
  */
 Point2D findMidPoint(const LineSegment& segment);
+
